@@ -42,25 +42,54 @@ export const Sidebar: React.FC = () => {
             </Link>
           );
         })}
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 rounded-lg transition-all text-left">
+        <Link
+          to="/bookings"
+          className={cn(
+            "flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all",
+            location.pathname === '/bookings' ? "text-indigo-700 bg-indigo-50" : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+          )}
+        >
           <Wallet className="w-5 h-5" />
           Wallet History
-        </button>
+        </Link>
       </nav>
 
-      <div className="mt-auto p-4 bg-slate-50 rounded-xl border border-slate-100">
-        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-          <Activity className="w-3 h-3" />
-          Network Status
+      <div className="mt-auto space-y-4">
+        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+          <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Recent Activity</div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+              <div className="flex-1">
+                <p className="text-[10px] font-bold text-slate-700 leading-none">Ticket Minted</p>
+                <p className="text-[9px] text-slate-400 mt-0.5">2m ago • Block #4582</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <div className="flex-1">
+                <p className="text-[10px] font-bold text-slate-700 leading-none">Refund Processed</p>
+                <p className="text-[9px] text-slate-400 mt-0.5">15m ago • Hash ox3a... </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <div className={cn(
-            "w-2 h-2 rounded-full animate-pulse",
-            address ? "bg-green-500" : "bg-slate-300"
-          )} />
-          <span className="text-xs font-bold text-slate-700">
-            {address ? "Mainnet Connected" : "Not Connected"}
-          </span>
+
+        <div className="p-4 bg-slate-900 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent pointer-events-none" />
+          <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+            <Activity className="w-3 h-3 text-indigo-400" />
+            Network Status
+          </div>
+          <div className="flex items-center gap-3">
+            <div className={cn(
+              "w-2.5 h-2.5 rounded-full",
+              address ? "bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.4)] animate-pulse" : "bg-slate-600"
+            )} />
+            <span className="text-[11px] font-black text-white uppercase tracking-tight">
+              {address ? "Mainnet Active" : "Offline"}
+            </span>
+          </div>
         </div>
       </div>
     </aside>

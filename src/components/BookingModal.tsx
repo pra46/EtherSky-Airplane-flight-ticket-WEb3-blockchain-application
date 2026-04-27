@@ -33,6 +33,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({ flight, onClose, onS
     try {
       const hash = await web3Service.bookFlight(flight.id, seatCount, flight.price);
       setTxHash(hash);
+      
+      // Save locally as a secondary ledger for instant UI feedback
+      if (address) {
+        web3Service.saveLocalBooking(address, flight.id, seatCount, flight.price);
+      }
+      
       setStatus('success');
       setTimeout(() => {
         onSuccess();
@@ -53,23 +59,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({ flight, onClose, onS
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="absolute inset-0 bg-indigo-900/40 backdrop-blur-sm"
-          onClick={onClose}
-        />
+          onClick={onClose}/>
         
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-slate-900 text-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10"
-        >
+          className="relative w-full max-w-lg bg-slate-900 text-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/10">
           <div className="p-8">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-bold text-indigo-400 uppercase tracking-widest">Confirm Transaction</h2>
               <button 
                 onClick={onClose}
                 className="p-2 hover:bg-white/5 rounded-full transition-colors"
-                title="Close"
-              >
+                title="Close">
                 <X className="w-6 h-6 text-slate-500" />
               </button>
             </div>
@@ -121,15 +124,14 @@ export const BookingModal: React.FC<BookingModalProps> = ({ flight, onClose, onS
                   <div className="flex items-center gap-4">
                     <button 
                       onClick={() => setSeatCount(Math.max(1, seatCount - 1))}
-                      className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center font-bold text-xl transition-all"
-                    >
+                      className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center font-bold text-xl transition-all">
                       -
                     </button>
                     <span className="text-xl font-black w-4 text-center">{seatCount}</span>
                     <button 
                       onClick={() => setSeatCount(Math.min(flight.seatsAvailable, seatCount + 1))}
-                      className="w-10 h-10 rounded-xl bg-indigo-500 hover:bg-indigo-400 flex items-center justify-center font-bold text-xl text-white transition-all shadow-lg shadow-indigo-500/20"
-                    >
+                      className="w-10 h-10 rounded-xl bg-indigo-500 hover:bg-indigo-400 flex items-center 
+                      justify-center font-bold text-xl text-white transition-all shadow-lg shadow-indigo-500/20">
                       +
                     </button>
                   </div>

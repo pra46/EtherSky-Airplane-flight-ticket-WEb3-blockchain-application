@@ -72,8 +72,14 @@ contract FlightBooking {
         require(bookings[_bookingId].exists, "Booking does not exist");
         require(bookings[_bookingId].user == msg.sender, "Not your booking");
 
-        bookings[_bookingId].exists = false;
-        // In a real app, you might refund some ETH here depending on policy
+        Booking storage booking = bookings[_bookingId];
+        uint256 refundAmount = booking.price;
+        
+        booking.exists = false;
+        
+        // Refund ETH to the user
+        (bool success, ) = payable(msg.sender).call{value: refundAmount}("");
+        require(success, "Refund failed");
         
         emit BookingCancelled(_bookingId, msg.sender);
     }

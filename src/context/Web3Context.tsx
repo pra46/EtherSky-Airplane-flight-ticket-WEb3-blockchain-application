@@ -42,9 +42,14 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     checkConnection();
     
     if (window.ethereum) {
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
-        if (accounts.length > 0) setAddress(accounts[0]);
-        else setAddress(null);
+      window.ethereum.on('accountsChanged', async (accounts: string[]) => {
+        if (accounts.length > 0) {
+          const addr = await web3Service.connectWallet();
+          setAddress(addr);
+        } else {
+          await web3Service.disconnect();
+          setAddress(null);
+        }
       });
       
       window.ethereum.on('chainChanged', () => {

@@ -3,6 +3,7 @@ import { Wallet, User, Bell } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useWeb3 } from '../context/Web3Context';
 import { formatAddress } from '../lib/utils';
+import { motion } from 'motion/react';
 
 export const Header: React.FC = () => {
   const { address, connect, isConnecting } = useWeb3();
@@ -10,15 +11,23 @@ export const Header: React.FC = () => {
 
   return (
     <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-40">
-      <div className="flex items-center gap-2 text-sm text-slate-500">
+      <motion.div 
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="flex items-center gap-2 text-sm text-slate-500"
+      >
         <span className="hover:text-indigo-600 cursor-pointer transition-colors">Dashboard</span>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
-        <span className="font-bold text-slate-800">
-          {location.pathname === '/' ? 'Flight Search' : 'My Bookings'}
+        <span className="font-black text-slate-800 tracking-tight">
+          {location.pathname === '/' ? 'FLIGHT SEARCH' : 'VERIFIED BOOKINGS'}
         </span>
-      </div>
+      </motion.div>
       
-      <div className="flex items-center gap-6">
+      <motion.div 
+        initial={{ opacity: 0, x: 10 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="flex items-center gap-6"
+      >
         {address && (
           <div className="hidden sm:flex flex-col items-end">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Wallet Balance</span>
@@ -49,7 +58,7 @@ export const Header: React.FC = () => {
             </button>
           )}
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 };
