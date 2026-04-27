@@ -1,0 +1,6 @@
+{
+  "name": "EtherSky - Web3 Flight Booking",
+  "description": "A decentralized flight booking platform where you can search and book tickets using ETH, powered by smart contracts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
